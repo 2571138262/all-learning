@@ -1,0 +1,11 @@
+# 数据库驱动
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    # 数据库URL
+    url: jdbc:mysql://114.67.125.141:3306/Baixw?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+
+
+
