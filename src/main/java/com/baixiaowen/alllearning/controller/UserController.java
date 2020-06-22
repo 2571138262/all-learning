@@ -11,6 +11,7 @@ import com.baixiaowen.alllearning.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -97,7 +98,7 @@ public class UserController {
     @GetMapping
     public ResponseResult<PageResult> query(Integer pageNo,
                                             Integer pageSize,
-                                            @RequestBody UserQueryDTO query) {
+                                            UserQueryDTO query) {
         // 构造查询条件
         PageQuery<UserQueryDTO> pageQuery = new PageQuery<>();
         pageQuery.setPageNo(pageNo);
@@ -116,8 +117,10 @@ public class UserController {
                     BeanUtils.copyProperties(userDTO, userVO);
                     // 对特殊字段做处理
                     userVO.setPassword("******");
-                    userVO.setPhone(userDTO.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})",
-                            "$1****$2"));
+                    if (!StringUtils.isEmpty(userDTO.getPhone())){
+                        userVO.setPhone(userDTO.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})",
+                                "$1****$2"));
+                    }
                     return userVO;
                 }).collect(Collectors.toList());
 
