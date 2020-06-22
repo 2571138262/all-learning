@@ -7,6 +7,7 @@ import com.baixiaowen.alllearning.domain.dto.UserQueryDTO;
 import com.baixiaowen.alllearning.domain.entity.UserDO;
 import com.baixiaowen.alllearning.mapper.UserMapper;
 import com.baixiaowen.alllearning.service.UserService;
+import com.baixiaowen.alllearning.utils.ValidatorUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -53,6 +54,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResult<List<UserDTO>> query(PageQuery<UserQueryDTO> pageQuery) {
+
+        // TODO 手动校验功能
+        ValidatorUtils.validate(pageQuery);
+
         // 参数构造
         Page page = new Page(pageQuery.getPageNo(),
                 pageQuery.getPageSize());

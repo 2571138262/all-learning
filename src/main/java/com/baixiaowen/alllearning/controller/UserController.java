@@ -8,12 +8,16 @@ import com.baixiaowen.alllearning.domain.dto.UserQueryDTO;
 import com.baixiaowen.alllearning.domain.vo.UserVO;
 import com.baixiaowen.alllearning.exception.ErrorCodeEnum;
 import com.baixiaowen.alllearning.service.UserService;
+import com.baixiaowen.alllearning.utils.InsertValidationGroup;
+import com.baixiaowen.alllearning.utils.UpdateValidationGroup;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +29,8 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping("/api/users")
 @Slf4j
+// 开启简单注解对基础类型的校验
+@Validated
 public class UserController {
 
     @Autowired
@@ -37,7 +43,10 @@ public class UserController {
      * @RequestBody 从Request 的 Body中获取数据
      */
     @PostMapping
-    public ResponseResult save(@RequestBody UserDTO userDTO) {
+    public ResponseResult save(
+            @Validated(InsertValidationGroup.class)
+            @RequestBody
+                    UserDTO userDTO) {
         int save = userService.save(userDTO);
         if (save == 1) {
             return ResponseResult.success("新增成功!");
@@ -55,8 +64,13 @@ public class UserController {
      * @return
      */
     @PutMapping("/{id}")
-    public ResponseResult update(@PathVariable("id") Long id
-            , @RequestBody UserDTO userDTO) {
+    public ResponseResult update(
+            @NotNull
+            @PathVariable("id")
+                    Long id,
+            @Validated(UpdateValidationGroup.class)
+            @RequestBody
+                    UserDTO userDTO) {
 
         int update = userService.update(id, userDTO);
 
@@ -75,7 +89,10 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseResult delete(@PathVariable("id") Long id) {
+    public ResponseResult delete(
+            @NotNull(message = "用户ID不能为空！")
+            @PathVariable("id")
+                    Long id) {
 
         int delete = userService.delete(id);
 
@@ -96,9 +113,9 @@ public class UserController {
      * @return
      */
     @GetMapping
-    public ResponseResult<PageResult> query(Integer pageNo,
-                                            Integer pageSize,
-                                            UserQueryDTO query) {
+    public ResponseResult<PageResult> query(@NotNull Integer pageNo,
+                                            @NotNull Integer pageSize,
+                                            @Validated UserQueryDTO query) {
         // 构造查询条件
         PageQuery<UserQueryDTO> pageQuery = new PageQuery<>();
         pageQuery.setPageNo(pageNo);
