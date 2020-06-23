@@ -13,6 +13,8 @@ import com.baixiaowen.alllearning.utils.UpdateValidationGroup;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,8 @@ public class UserController {
      * @RequestBody 从Request 的 Body中获取数据
      */
     @PostMapping
+    // 更新的时候，清空 缓存key 下所对应的数据
+    @CacheEvict(cacheNames = "users-cache", allEntries = true)
     public ResponseResult save(
             @Validated(InsertValidationGroup.class)
             @RequestBody
@@ -107,15 +111,22 @@ public class UserController {
      * 查询用户信息
      * GET /api/users/
      *
+     * @Cacheable(cacheNames = "users-cache")
+     *  cacheNames : 就是要把缓存数据放到哪个key下作为一条数据进行缓存，
+     *               如果不指定，将会使用所有的参数进行一个hash，得到的hash值就是缓存的key
+     *
      * @param pageNo
      * @param pageSize
      * @param query    用户查询DTO
      * @return
      */
+    @Cacheable(cacheNames = "users-cache")
     @GetMapping
     public ResponseResult<PageResult> query(@NotNull Integer pageNo,
                                             @NotNull Integer pageSize,
                                             @Validated UserQueryDTO query) {
+        log.info("未使用缓存！");
+
         // 构造查询条件
         PageQuery<UserQueryDTO> pageQuery = new PageQuery<>();
         pageQuery.setPageNo(pageNo);

@@ -27,7 +27,8 @@ public enum ErrorCodeEnum {
     XXX("3001", "业务异常"),
     INSERT_FAILURE("3002", "新增失败"),
     UPDATE_FAILURE("3003", "更新失败"),
-    DELETE_FAILURE("3004", "删除失败")
+    DELETE_FAILURE("3004", "删除失败"),
+    RATE_LIMIT_ERROR("3005", "限流异常")
 
     ;
 
