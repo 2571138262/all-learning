@@ -6,6 +6,10 @@ spring:
     url: jdbc:mysql://114.67.125.141:3306/Baixw?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
     username: root
     password: 123456
+  # 文件大小限制 -1代表不限制文件大小
+  servlet:
+    multipart:
+      max-file-size: -1
 
 # 日志输出格式
 logging:

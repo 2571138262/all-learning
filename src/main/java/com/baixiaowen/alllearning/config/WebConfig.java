@@ -43,5 +43,13 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
+        // 在这里可以将本地的一个文件夹目录映射到服务器上，类似于nginx代理，这里用tomcat做一个静态文件的代理
+
+        // 配置本地文件夹目录映射
+        registry
+                // 配置文件的映射地址 请求地址
+                .addResourceHandler("/uploads/**")
+                // 映射的真正的本地地址
+                .addResourceLocations("file:D:\\PersonalLearning\\all-learning\\uploads\\");
     }
 }

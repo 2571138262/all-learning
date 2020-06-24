@@ -1,6 +1,5 @@
 package com.baixiaowen.alllearning.utils;
 
-import com.baixiaowen.alllearning.exception.ErrorCodeEnum;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.ConstraintViolation;
