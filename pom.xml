@@ -20,6 +20,18 @@
 
     <dependencies>
 
+        <!--EasyExcel相关支持-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>2.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-all</artifactId>
+            <version>5.2</version>
+        </dependency>
+
         <!--引入Guava支持-->
         <dependency>
             <groupId>com.google.guava</groupId>

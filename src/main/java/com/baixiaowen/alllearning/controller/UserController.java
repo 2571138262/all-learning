@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
@@ -160,4 +161,17 @@ public class UserController {
         return ResponseResult.success(result);
     }
 
+    /**
+     * 用户数据导出
+     * @param query
+     * @param filename
+     * @return
+     */
+    @GetMapping("/export")
+    public ResponseResult<Boolean> export(@Validated UserQueryDTO query,
+                                          @NotEmpty String filename) {
+        // 数据导出...
+
+        return ResponseResult.success(Boolean.TRUE);
+    }
 }
