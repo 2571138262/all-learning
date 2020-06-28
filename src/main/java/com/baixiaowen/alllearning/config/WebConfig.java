@@ -51,5 +51,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceHandler("/uploads/**")
                 // 映射的真正的本地地址
                 .addResourceLocations("file:D:\\PersonalLearning\\all-learning\\uploads\\");
+
+
+        // Swagger2做的映射
+        registry.addResourceHandler("/swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }

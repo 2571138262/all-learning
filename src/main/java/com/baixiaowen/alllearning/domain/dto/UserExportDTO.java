@@ -41,7 +41,7 @@ public class UserExportDTO implements Serializable {
      * 时间类型 不能转换，需要根据提供转换器来进行转换
      */
     @ExcelProperty(value = "创建时间", converter = LocalDateTimeStringConverter.class)
-    @DateTimeFormat("yyyy年MM月dd日HH时mm分ss秒sss毫秒值")
+    @DateTimeFormat("yyyy年MM月dd日HH时mm分ss秒SSS毫秒")
     private LocalDateTime created;
 
 }

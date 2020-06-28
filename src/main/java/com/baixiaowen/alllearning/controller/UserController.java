@@ -11,6 +11,7 @@ import com.baixiaowen.alllearning.service.ExcelExportService;
 import com.baixiaowen.alllearning.service.UserService;
 import com.baixiaowen.alllearning.utils.InsertValidationGroup;
 import com.baixiaowen.alllearning.utils.UpdateValidationGroup;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ import java.util.stream.Stream;
 @Slf4j
 // 开启简单注解对基础类型的校验
 @Validated
+
+@Api(
+        value = "用户管理Controller",
+        protocols = "http, https",
+        hidden = false
+)
 public class UserController {
 
     @Autowired
@@ -73,6 +80,38 @@ public class UserController {
      * @return
      */
     @PutMapping("/{id}")
+
+    @ApiOperation(
+            value = "更新用户信息",
+            notes = "备注说明信息",
+            // 标记返回对象
+            response = ResponseResult.class,
+            httpMethod = "PUT"
+    )
+    // 对参数整体的说明 表示一组参数
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "id",
+                    value = "参数说明：用户主键",
+                    required = true, // 是否必填
+                    paramType = "path", // 参数从哪获取
+                    dataType = "Long", // 参数类型
+                    example = "12345" // 实例
+            ),
+            @ApiImplicitParam(
+                    name = "userDTO",
+                    value = "用户信息",
+                    required = true,
+                    paramType = "body",
+                    dataType = "UserDTO",
+                    dataTypeClass = UserDTO.class
+            )
+    })
+    // 用来定义响应码 和 响应信息的
+    @ApiResponses({
+            @ApiResponse(code = 0000, message = "操作成功"),
+            @ApiResponse(code = 3004, message = "更新失败")
+    })
     public ResponseResult update(
             @NotNull
             @PathVariable("id")
@@ -175,9 +214,9 @@ public class UserController {
     public ResponseResult<Boolean> export(@Validated UserQueryDTO query,
                                           @NotEmpty String filename) {
         // 数据导出...
-        excelExportService.export(query, filename);
+//        excelExportService.export(query, filename);
         // 异步导出
-//        excelExportService.asyncExport(query, filename);
+        excelExportService.asyncExport(query, filename);
 
         return ResponseResult.success(Boolean.TRUE);
     }
