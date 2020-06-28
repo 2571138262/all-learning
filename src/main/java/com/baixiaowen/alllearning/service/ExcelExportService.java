@@ -15,4 +15,11 @@ public interface ExcelExportService {
      */
     void export(UserQueryDTO query, String filename);
 
+    /**
+     * 异步导出服务
+     * @param query
+     * @param filename
+     */
+    void asyncExport(UserQueryDTO query, String filename);
+
 }

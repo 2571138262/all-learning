@@ -7,6 +7,7 @@ import com.baixiaowen.alllearning.domain.dto.UserDTO;
 import com.baixiaowen.alllearning.domain.dto.UserQueryDTO;
 import com.baixiaowen.alllearning.domain.vo.UserVO;
 import com.baixiaowen.alllearning.exception.ErrorCodeEnum;
+import com.baixiaowen.alllearning.service.ExcelExportService;
 import com.baixiaowen.alllearning.service.UserService;
 import com.baixiaowen.alllearning.utils.InsertValidationGroup;
 import com.baixiaowen.alllearning.utils.UpdateValidationGroup;
@@ -38,6 +39,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ExcelExportService excelExportService;
 
     /**
      * 保存用户信息
@@ -171,6 +175,9 @@ public class UserController {
     public ResponseResult<Boolean> export(@Validated UserQueryDTO query,
                                           @NotEmpty String filename) {
         // 数据导出...
+        excelExportService.export(query, filename);
+        // 异步导出
+//        excelExportService.asyncExport(query, filename);
 
         return ResponseResult.success(Boolean.TRUE);
     }
